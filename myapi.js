@@ -24,6 +24,26 @@ function glowLedFor5Sec(gpioPin) {
   }, 5000);
 };
 
+//give power supply for 5 seconds to open the door
+function openDoor() {
+  var led =  new Gpio(17, 'out');
+  led.writeSync(1);
+  setTimeout(function() {
+    led.writeSync(0);
+    led.unexport();
+  }, 5000);
+};
+
+//give power supply for 5 seconds to close the door
+function closeDoor() {
+  var led =  new Gpio(24, 'out');
+  led.writeSync(1);
+  setTimeout(function() {
+    led.writeSync(0);
+    led.unexport();
+  }, 5000);
+};
+
 app.post('/glowled/:pinNo', function(req, res) {
   var output = {'error': 'Port not configured'};
   if(req.params.pinNo >= 2 && req.params.pinNo <= 27) {
@@ -34,6 +54,20 @@ app.post('/glowled/:pinNo', function(req, res) {
   res.status(200).send(output);
 });
 
+app.post('/dooraccess/:command', function(req, res) {
+  var output = {'error': 'Port not configured'};
+  if(req.params.command === "open") {
+    console.log("opening door");
+    output = {'success': true};
+    openDoor();
+  }
+  else if(req.params.command === "close") {
+    console.log("closing door");
+    output = {'success': true};
+    closeDoor();
+  }
+  res.status(200).send(output);
+});
 
 // Express route for any other unrecognised incoming requests
 app.get('*', function(req, res) {
