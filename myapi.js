@@ -1,6 +1,7 @@
 var http = require('http');
 var express = require('express');
 var Gpio = require('onoff').Gpio;
+var gpioPins = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 
 var app = express();
 
@@ -25,7 +26,7 @@ function glowLedFor5Sec(gpioPin) {
 
 app.post('/glowled/:pinNo', function(req, res) {
   var output = {'error': 'Port not configured'};
-  if(req.params.pinNo === "17" || req.params.pinNo === "24") {
+  if(req.params.pinNo >= 2 && req.params.pinNo <= 27) {
     console.log("glowing LED");
     output = {'success': true};
     glowLedFor5Sec(req.params.pinNo);
