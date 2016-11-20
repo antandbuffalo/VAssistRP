@@ -1,0 +1,14 @@
+{
+  "name": "vassistrp",
+  "version": "0.0.1",
+  "description": "My MTech dissertation project using RaspberryPi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeyabalaji",
+  "license": "ISC",
+  "dependencies": {
+    "onoff": "^1.1.1"
+  }
+}
