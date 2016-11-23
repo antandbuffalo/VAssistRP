@@ -55,6 +55,7 @@ app.post('/glowled/:pinNo', function(req, res) {
 });
 
 app.post('/dooraccess/:command', function(req, res) {
+  //console.log();
   var output = {'error': 'Port not configured'};
   if(req.params.command === "open") {
     console.log("opening door");
@@ -62,6 +63,16 @@ app.post('/dooraccess/:command', function(req, res) {
     openDoor();
   }
   else if(req.params.command === "close") {
+    console.log("closing door");
+    output = {'success': true};
+    closeDoor();
+  }
+  else if(req.params.command === "on") {
+    console.log("opening door");
+    output = {'success': true};
+    openDoor();
+  }
+  else if(req.params.command === "off") {
     console.log("closing door");
     output = {'success': true};
     closeDoor();
