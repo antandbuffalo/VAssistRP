@@ -125,11 +125,19 @@ app.get('/device/:id', function(req, res) {
     //Device TABLE
     db.each("SELECT p_id, d_status FROM DEVICE", function(err, row) {
       console.log(row);
-      response.device = row;
-      response.status = true;
+      console.log(err);
+      if(err) {
+        response.device = err;
+        response.status = false;
+        response.error = err;
+      }
+      else {
+        response.device = row;
+        response.status = true;
+      }
+      res.status(200).send(response);
     });
   });
-  res.status(200).send(response);
 });
 
 
@@ -149,4 +157,3 @@ app.use(function(err, req, res, next) {
 
 app.listen(3000);
 console.log('App Server running at port new 3000');
-db.close();
