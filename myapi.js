@@ -21,16 +21,16 @@ var db = new sqlite3.Database(file);
 db.serialize(function() {
   if(!exists) {
     db.run("CREATE TABLE DEVICE (p_id TEXT, d_status TEXT)");
+    var stmt = db.prepare("INSERT INTO DEVICE VALUES (?, ?)");
+    //Insert random data
+    var input;
+    stmt.run("11", "closed");
+    stmt.run("12", "off");
+    stmt.finalize();
+    db.each("SELECT rowid AS id, p_id, d_status FROM DEVICE", function(err, row) {
+      console.log(row);
+    });
   }
-  var stmt = db.prepare("INSERT INTO DEVICE VALUES (?, ?)");
-//Insert random data
-  var input;
-  stmt.run("11", "closed");
-  stmt.run("12", "off");
-  stmt.finalize();
-  db.each("SELECT rowid AS id, p_id, d_status FROM DEVICE", function(err, row) {
-    console.log(row.id + ": " + row.thing);
-  });
 });
 db.close();
 
