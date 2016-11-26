@@ -49,6 +49,36 @@ app.get('/inputs/:id', function(req, res) {
   res.status(200).send(inputs[req.params.id]);
 });
 
+function updateDeviceStatus() {
+  db.serialize(function() {
+    //Device TABLE
+    db.run("UPDATE DEVICE SET d_status = ? WHERE p_id = ?", req.body.action, req.body.deviceId);
+  });
+}
+
+app.post('/access', function(req, res) {
+  var output = {
+    status: false
+  };
+  console.log(req.body.deviceId);
+  db.serialize(function() {
+    db.run("UPDATE DEVICE SET d_status = ? WHERE p_id = ?", req.body.action, req.body.deviceId);
+    db.get("SELECT p_id, d_status FROM DEVICE WHERE p_id = " + req.body.deviceId, function(err, row) {
+      console.log(row);
+      if(row) {
+        response.device = row;
+        response.status = true;
+      }
+      else {
+        response.device = err;
+        response.status = false;
+        response.error = err;
+      }
+      res.status(200).send(response);
+    });
+  });
+});
+
 app.get('/device/:id', function(req, res) {
   console.log(req.params.id);
   var response = {
@@ -71,7 +101,6 @@ app.get('/device/:id', function(req, res) {
     });
   });
 });
-
 
 // Express route for any other unrecognised incoming requests
 app.get('*', function(req, res) {

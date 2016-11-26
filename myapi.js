@@ -80,6 +80,35 @@ function closeDoor() {
   }, 5000);
 };
 
+function switchOffMusic() {
+  var led =  new Gpio(24, 'out');
+  led.writeSync(0);
+}
+function switchOnMusic() {
+  var led =  new Gpio(24, 'out');
+  led.writeSync(1);
+}
+
+function RPActions(deviceId, action) {
+  if(deviceId === "11") {
+    //close the door
+    if(action === "DOOR_CLOSED") {
+      closeDoor();
+    }
+    else {
+      openDoor();
+    }
+  }
+  else if(deviceId === "12") {
+    if(action === "MUSIC_OFF") {
+      switchOffMusic();
+    }
+    else {
+      switchOnMusic();
+    }
+  }
+};
+
 app.post('/glowled/:pinNo', function(req, res) {
   var output = {'error': 'Port not configured'};
   if(req.params.pinNo >= 2 && req.params.pinNo <= 27) {
@@ -88,6 +117,30 @@ app.post('/glowled/:pinNo', function(req, res) {
     glowLedFor5Sec(req.params.pinNo);
   }
   res.status(200).send(output);
+});
+
+app.post('/access', function(req, res) {
+  var output = {
+    status: false
+  };
+  console.log(req.body.deviceId);
+  db.serialize(function() {
+    db.run("UPDATE DEVICE SET d_status = ? WHERE p_id = ?", req.body.action, req.body.deviceId);
+    db.get("SELECT p_id, d_status FROM DEVICE WHERE p_id = " + req.body.deviceId, function(err, row) {
+      console.log(row);
+      if(row) {
+        response.device = row;
+        response.status = true;
+      }
+      else {
+        response.device = err;
+        response.status = false;
+        response.error = err;
+      }
+      res.status(200).send(response);
+    });
+  });
+  RPActions(req.body.deviceId, req.body.action);
 });
 
 app.post('/dooraccess/:command', function(req, res) {
