@@ -54,6 +54,10 @@ app.post('/glowled/:pinNo', function(req, res) {
   res.status(200).send(output);
 });
 
+app.post('/actions', function(req, res) {
+  console.log(req.body);
+}
+
 app.post('/dooraccess/:command', function(req, res) {
   //console.log();
   var output = {'error': 'Port not configured'};
