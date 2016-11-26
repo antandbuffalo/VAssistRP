@@ -81,11 +81,11 @@ function closeDoor() {
 };
 
 function switchOffMusic() {
-  var led =  new Gpio(24, 'out');
+  var led =  new Gpio(4, 'out');
   led.writeSync(0);
 }
 function switchOnMusic() {
-  var led =  new Gpio(24, 'out');
+  var led =  new Gpio(4, 'out');
   led.writeSync(1);
 }
 
