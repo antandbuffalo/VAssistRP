@@ -123,7 +123,7 @@ app.get('/device/:id', function(req, res) {
   };
   db.serialize(function() {
     //Device TABLE
-    db.each("SELECT p_id, d_status FROM DEVICE", function(err, row) {
+    db.each("SELECT p_id, d_status FROM DEVICE WHERE p_id = " + req.params.id, function(err, row) {
       console.log(row);
       console.log(err);
       if(err) {
