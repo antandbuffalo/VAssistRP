@@ -3,7 +3,9 @@ var express = require('express');
 var Gpio = require('onoff').Gpio;
 var gpioPins = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 
+var bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.json());
 
 var inputs = [{ pin: '11', gpio: '17', value: 1 },
               { pin: '12', gpio: '18', value: 0 }];
