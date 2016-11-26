@@ -60,7 +60,6 @@ app.post('/access', function(req, res) {
   var output = {
     status: false
   };
-  console.log(req.body.deviceId);
   db.serialize(function() {
     db.run("UPDATE DEVICE SET d_status = ? WHERE p_id = ?", req.body.action, req.body.deviceId);
     db.get("SELECT p_id, d_status FROM DEVICE WHERE p_id = " + req.body.deviceId, function(err, row) {
