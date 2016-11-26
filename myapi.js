@@ -33,17 +33,16 @@ db.serialize(function() {
     //Actions TABLE
     db.run("CREATE TABLE ACTION (p_id TEXT, d_action TEXT, pins TEXT)");
     var stmtAction = db.prepare("INSERT INTO ACTION VALUES (?, ?, ?)");
-    stmtAction.run("11", "closed", "24");
-    stmtAction.run("11", "opened", "17");
-    stmtAction.run("12", "off", "24");
-    stmtAction.run("12", "on", "17");
+    stmtAction.run("11", "activate", "24");
+    stmtAction.run("11", "deactivate", "17");
+    stmtAction.run("12", "activate", "24");
+    stmtAction.run("12", "deactivate", "17");
     stmtAction.finalize();
     db.each("SELECT * FROM ACTION", function(err, row) {
       console.log(row);
     });
   }
 });
-db.close();
 
 var inputs = [{ pin: '11', gpio: '17', value: 1 },
               { pin: '12', gpio: '18', value: 0 }];
@@ -91,11 +90,6 @@ app.post('/glowled/:pinNo', function(req, res) {
   res.status(200).send(output);
 });
 
-app.post('/actions', function(req, res) {
-  console.log(req);
-  res.send(req.body);
-});
-
 app.post('/dooraccess/:command', function(req, res) {
   //console.log();
   var output = {'error': 'Port not configured'};
@@ -122,6 +116,23 @@ app.post('/dooraccess/:command', function(req, res) {
   res.status(200).send(output);
 });
 
+app.get('/device/:id', function(req, res) {
+  console.log(req.params.id);
+  var response = {
+    status: false
+  };
+  db.serialize(function() {
+    //Device TABLE
+    db.each("SELECT p_id, d_status FROM DEVICE", function(err, row) {
+      console.log(row);
+      response.device = row;
+      response.status = true;
+    });
+  });
+  res.status(200).send(response);
+});
+
+
 // Express route for any other unrecognised incoming requests
 app.get('*', function(req, res) {
   res.status(404).send('Unrecognised API call');
@@ -138,3 +149,4 @@ app.use(function(err, req, res, next) {
 
 app.listen(3000);
 console.log('App Server running at port new 3000');
+db.close();
