@@ -56,7 +56,7 @@ app.post('/glowled/:pinNo', function(req, res) {
 
 app.post('/actions', function(req, res) {
   console.log(req.body);
-}
+});
 
 app.post('/dooraccess/:command', function(req, res) {
   //console.log();
