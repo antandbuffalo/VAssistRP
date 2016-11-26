@@ -22,7 +22,7 @@ db.serialize(function() {
   if(!exists) {
     db.run("CREATE TABLE DEVICE (p_id TEXT, d_status TEXT)");
   }
-  var stmt = db.prepare("INSERT INTO Stuff VALUES (?, ?)");
+  var stmt = db.prepare("INSERT INTO DEVICE VALUES (?, ?)");
 //Insert random data
   var input;
   stmt.run("11", "closed");
