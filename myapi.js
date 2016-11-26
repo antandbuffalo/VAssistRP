@@ -32,7 +32,7 @@ db.serialize(function() {
 
     //Actions TABLE
     db.run("CREATE TABLE ACTION (p_id TEXT, d_action TEXT, pins TEXT)");
-    var stmtAction = db.prepare("INSERT INTO DEVICE VALUES (?, ?)");
+    var stmtAction = db.prepare("INSERT INTO ACTION VALUES (?, ?, ?)");
     stmtAction.run("11", "closed", "24");
     stmtAction.run("11", "opened", "17");
     stmtAction.run("12", "off", "24");
