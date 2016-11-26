@@ -123,23 +123,21 @@ app.get('/device/:id', function(req, res) {
   };
   db.serialize(function() {
     //Device TABLE
-    db.each("SELECT p_id, d_status FROM DEVICE WHERE p_id = " + req.params.id, function(err, row) {
-      console.log(row);
-      console.log(err);
-      if(err) {
-        response.device = err;
-        response.status = false;
-        response.error = err;
-      }
-      else {
-        response.device = row;
-        response.status = true;
-      }
-      res.status(200).send(response);
+    db.get("SELECT p_id, d_status FROM DEVICE WHERE p_id = " + req.params.id, function(err, row) {
+        console.log(row);
+        if(row) {
+          response.device = row;
+          response.status = true;
+        }
+        else {
+          response.device = err;
+          response.status = false;
+          response.error = err;
+        }
+        res.status(200).send(response);
     });
   });
 });
-
 
 // Express route for any other unrecognised incoming requests
 app.get('*', function(req, res) {
