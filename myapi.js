@@ -129,15 +129,15 @@ app.post('/access', function(req, res) {
     db.get("SELECT p_id, d_status FROM DEVICE WHERE p_id = " + req.body.deviceId, function(err, row) {
       console.log(row);
       if(row) {
-        response.device = row;
-        response.status = true;
+        output.device = row;
+        output.status = true;
       }
       else {
-        response.device = err;
-        response.status = false;
-        response.error = err;
+        output.device = err;
+        output.status = false;
+        output.error = err;
       }
-      res.status(200).send(response);
+      res.status(200).send(output);
     });
   });
   RPActions(req.body.deviceId, req.body.action);
