@@ -7,11 +7,35 @@ var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
 
+//DBHelper Starts here
+console.log("DB Helper");
+var fs = require("fs");
+var file = "./vassist.db";
+var exists = fs.existsSync(file);
+if(!exists) {
+  console.log("Creating DB file.");
+  fs.openSync(file, "w");
+}
+var sqlite3 = require("sqlite3").verbose();
+var db = new sqlite3.Database(file);
+db.serialize(function() {
+  if(!exists) {
+    db.run("CREATE TABLE DEVICE (p_id TEXT, d_status TEXT)");
+  }
+  var stmt = db.prepare("INSERT INTO Stuff VALUES (?, ?)");
+//Insert random data
+  var input;
+  stmt.run("11", "closed");
+  stmt.run("12", "off");
+  stmt.finalize();
+  db.each("SELECT rowid AS id, p_id, d_status FROM DEVICE", function(err, row) {
+    console.log(row.id + ": " + row.thing);
+  });
+});
+db.close();
+
 var inputs = [{ pin: '11', gpio: '17', value: 1 },
               { pin: '12', gpio: '18', value: 0 }];
-
-app.use(express['static'](__dirname ));
-
 app.get('/inputs/:id', function(req, res) {
   console.log(req.params.id);
   res.status(200).send(inputs[req.params.id]);
@@ -57,10 +81,8 @@ app.post('/glowled/:pinNo', function(req, res) {
 });
 
 app.post('/actions', function(req, res) {
-  console.log(req.body);
-console.log(req);
-res.send(req.body);
-
+  console.log(req);
+  res.send(req.body);
 });
 
 app.post('/dooraccess/:command', function(req, res) {
