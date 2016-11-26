@@ -23,8 +23,8 @@ db.serialize(function() {
     //Device TABLE
     db.run("CREATE TABLE DEVICE (p_id TEXT, d_status TEXT)");
     var stmt = db.prepare("INSERT INTO DEVICE VALUES (?, ?)");
-    stmt.run("11", "closed");
-    stmt.run("12", "off");
+    stmt.run("11", "DOOR_CLOSED");
+    stmt.run("12", "MUSIC_OFF");
     stmt.finalize();
     db.each("SELECT rowid AS id, p_id, d_status FROM DEVICE", function(err, row) {
       console.log(row);
