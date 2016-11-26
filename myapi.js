@@ -20,14 +20,25 @@ var sqlite3 = require("sqlite3").verbose();
 var db = new sqlite3.Database(file);
 db.serialize(function() {
   if(!exists) {
+    //Device TABLE
     db.run("CREATE TABLE DEVICE (p_id TEXT, d_status TEXT)");
     var stmt = db.prepare("INSERT INTO DEVICE VALUES (?, ?)");
-    //Insert random data
-    var input;
     stmt.run("11", "closed");
     stmt.run("12", "off");
     stmt.finalize();
     db.each("SELECT rowid AS id, p_id, d_status FROM DEVICE", function(err, row) {
+      console.log(row);
+    });
+
+    //Actions TABLE
+    db.run("CREATE TABLE ACTION (p_id TEXT, d_action TEXT, pins TEXT)");
+    var stmtAction = db.prepare("INSERT INTO DEVICE VALUES (?, ?)");
+    stmtAction.run("11", "closed", "24");
+    stmtAction.run("11", "opened", "17");
+    stmtAction.run("12", "off", "24");
+    stmtAction.run("12", "on", "17");
+    stmtAction.finalize();
+    db.each("SELECT * FROM ACTION", function(err, row) {
       console.log(row);
     });
   }
