@@ -62,30 +62,46 @@ function glowLedFor5Sec(gpioPin) {
 
 //give power supply for 5 seconds to open the door
 function openDoor() {
-  var led =  new Gpio(17, 'out');
-  led.writeSync(1);
+  var input1 =  new Gpio(23, 'out');
+  var input2 =  new Gpio(24, 'out');
+  var enablePin = new Gpio(25, 'out');
+  enablePin.writeSync(1);
+  input1.writeSync(1);
+  input2.writeSync(0);
   setTimeout(function() {
-    led.writeSync(0);
-    led.unexport();
-  }, 5000);
+    enablePin.writeSync(0);
+    enablePin.unexport();
+    input1.writeSync(0);
+    input1.unexport();
+    input2.writeSync(0);
+    input2.unexport();
+  }, 3000);
 };
 
 //give power supply for 5 seconds to close the door
 function closeDoor() {
-  var led =  new Gpio(24, 'out');
-  led.writeSync(1);
+  var input1 =  new Gpio(23, 'out');
+  var input2 =  new Gpio(24, 'out');
+  var enablePin = new Gpio(25, 'out');
+  enablePin.writeSync(1);
+  input1.writeSync(0);
+  input2.writeSync(1);
   setTimeout(function() {
-    led.writeSync(0);
-    led.unexport();
-  }, 5000);
+    enablePin.writeSync(0);
+    enablePin.unexport();
+    input1.writeSync(0);
+    input1.unexport();
+    input2.writeSync(0);
+    input2.unexport();
+  }, 3000);
 };
 
 function switchOffMusic() {
-  var led =  new Gpio(4, 'out');
+  var led =  new Gpio(17, 'out');
   led.writeSync(0);
 }
 function switchOnMusic() {
-  var led =  new Gpio(4, 'out');
+  var led =  new Gpio(17, 'out');
   led.writeSync(1);
 }
 
