@@ -93,7 +93,7 @@ function closeDoor() {
     input1.unexport();
     input2.writeSync(0);
     input2.unexport();
-  }, 110);
+  }, 120);
 };
 
 function switchOffMusic() {
