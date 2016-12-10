@@ -75,7 +75,7 @@ function openDoor() {
     input1.unexport();
     input2.writeSync(0);
     input2.unexport();
-  }, 110);
+  }, 120);
 };
 
 //give power supply for 5 seconds to close the door
@@ -93,7 +93,7 @@ function closeDoor() {
     input1.unexport();
     input2.writeSync(0);
     input2.unexport();
-  }, 120);
+  }, 130);
 };
 
 function switchOffMusic() {
