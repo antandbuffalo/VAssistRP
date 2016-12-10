@@ -13,4 +13,4 @@ setTimeout(function() {
   input2.unexport();    // Unexport GPIO and free resources
   enablePin.writeSync(0);  // Turn LED off.
   enablePin.unexport();    // Unexport GPIO and free resources
-}, 3000);
+}, 110);
