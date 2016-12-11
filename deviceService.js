@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
 
-//DBHelper Starts here
+//DBHelper Starts here 1
 console.log("DB Helper");
 var fs = require("fs");
 var file = "./vassist.db";
@@ -93,7 +93,7 @@ function closeDoor() {
     input1.unexport();
     input2.writeSync(0);
     input2.unexport();
-  }, 130);
+  }, 120);
 };
 
 function switchOffMusic() {
