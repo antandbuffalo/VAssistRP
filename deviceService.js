@@ -2,6 +2,8 @@ var http = require('http');
 var express = require('express');
 var Gpio = require('onoff').Gpio;
 var gpioPins = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+var openDoorTiming = 150;
+var closeDoorTiming = 160;
 
 var bodyParser = require('body-parser');
 var app = express();
@@ -75,7 +77,7 @@ function openDoor() {
     input1.unexport();
     input2.writeSync(0);
     input2.unexport();
-  }, 120);
+  }, openDoorTiming);
 };
 
 //give power supply for 5 seconds to close the door
@@ -93,7 +95,7 @@ function closeDoor() {
     input1.unexport();
     input2.writeSync(0);
     input2.unexport();
-  }, 120);
+  }, closeDoorTiming);
 };
 
 function switchOffMusic() {
